@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+
 namespace Infrastructure.StateMachine.States
 {
     public class LoadProgressState : IState
@@ -10,13 +11,16 @@ namespace Infrastructure.StateMachine.States
             _stateMachine = gameStateMachine;
         }
 
-        public async Task Enter()
+        public async UniTask<AsyncUnit> Enter()
         {
             await _stateMachine.Enter<LoadLevelState>();
+            
+            return AsyncUnit.Default;
         }
 
-        public async Task Exit()
+        public async UniTask<AsyncUnit> Exit()
         {
+            return AsyncUnit.Default;
         }
     }
 }

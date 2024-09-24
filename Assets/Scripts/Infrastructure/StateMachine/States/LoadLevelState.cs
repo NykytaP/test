@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using Core.Pools.Bullets;
+using Core.Pools.VFX;
+using Core.Presenters.Player;
 using Core.Views.Loaders;
+using Cysharp.Threading.Tasks;
 using Data.Enums;
 using Infrastructure.Factories;
 using Infrastructure.Helpers.CancellationTokenHelper;
@@ -15,31 +18,39 @@ namespace Infrastructure.StateMachine.States
         private readonly SceneLoader _sceneLoader;
         private readonly IUIFactory _uiFactory;
         private readonly ICancellationTokenHelper _cancellationTokenHelper;
+        private readonly IBulletsPoolManager _bulletsPoolManager;
+        private readonly IVFXPoolManager _vfxPoolManager;
 
         private IPreloadingView _preloadingView;
         private ILoaderView _loaderView;
 
         public LoadLevelState(DiContainer container, GameStateMachine gameStateMachine, SceneLoader sceneLoader, 
-            IUIFactory uiFactory, ICancellationTokenHelper cancellationTokenHelper)
+            IUIFactory uiFactory, ICancellationTokenHelper cancellationTokenHelper, IBulletsPoolManager bulletsPoolManager, IVFXPoolManager vfxPoolManager)
         {
             _container = container;
             _stateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _uiFactory = uiFactory;
             _cancellationTokenHelper = cancellationTokenHelper;
+            _bulletsPoolManager = bulletsPoolManager;
+            _vfxPoolManager = vfxPoolManager;
         }
 
-        public async Task Enter()
+        public async UniTask<AsyncUnit> Enter()
         {
             PreloadingView.ShowLoading();
             LoaderView.HideLoading();
             
             await _sceneLoader.Load(SceneName.LevelScene, OnLoaded);
+            
+            return AsyncUnit.Default;
         }
 
-        public async Task Exit()
+        public async UniTask<AsyncUnit> Exit()
         {
             PreloadingView.HideLoading();
+            
+            return AsyncUnit.Default;
         }
         
         private async void OnLoaded(SceneName sceneName)
@@ -47,32 +58,47 @@ namespace Infrastructure.StateMachine.States
             await InitUIRoot();
             await InitGameWorld();
             await InitUI();
-            await InitializeWorldEntities();
+            await InitObjectPools();
             
             await _stateMachine.Enter<GameLoopState>();
         }
 
-        private async Task InitUIRoot()
+        private async UniTask<AsyncUnit> InitUIRoot()
         {
             await _uiFactory.InitUIRoot();
+            
+            return AsyncUnit.Default;
         }
 
-        private async Task InitGameWorld()
+        private async UniTask<AsyncUnit> InitGameWorld()
         {
             await InitHero();
+            
+            return AsyncUnit.Default;
         }
 
-        private async Task InitHero()
+        private async UniTask<AsyncUnit> InitHero()
         {
+            IPlayerPresenter playerPresenter = _container.Resolve<IPlayerPresenter>();
+
+            await playerPresenter.InitializePlayer(_cancellationTokenHelper.GetSceneCancellationToken());
+            
+            return AsyncUnit.Default;
         }
 
-        private async Task InitUI()
+        private async UniTask<AsyncUnit> InitUI()
         {
             await _uiFactory.CreateHUD();
+            
+            return AsyncUnit.Default;
         }
-
-        private async Task InitializeWorldEntities()
+        
+        private async UniTask<AsyncUnit> InitObjectPools()
         {
+            await _bulletsPoolManager.InitPool(_cancellationTokenHelper.GetSceneCancellationToken());
+            await _vfxPoolManager.InitPool(_cancellationTokenHelper.GetSceneCancellationToken());
+            
+            return AsyncUnit.Default;
         }
 
         private IPreloadingView PreloadingView
@@ -87,7 +113,6 @@ namespace Infrastructure.StateMachine.States
                 return _preloadingView;
             }
         }
-        
         private ILoaderView LoaderView
         {
             get

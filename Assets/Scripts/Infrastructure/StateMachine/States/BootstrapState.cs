@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Infrastructure.Factories;
 using Infrastructure.SceneManagement;
 using UnityEngine;
@@ -17,16 +17,19 @@ namespace Infrastructure.StateMachine.States
             _uiFactory = uiFactory;
         }
 
-        public async Task Enter()
+        public async UniTask<AsyncUnit> Enter()
         {
             ConfigureApp();
             await _uiFactory.InitPreloadingView();
             await _uiFactory.InitLoaderView();
             await _stateMachine.Enter<LoadProgressState>();
+            
+            return AsyncUnit.Default;
         }
 
-        public async Task Exit()
+        public async UniTask<AsyncUnit> Exit()
         {
+            return AsyncUnit.Default;
         }
         
         private void ConfigureApp()

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Helpers.DisposableHelper;
-using UnityEngine;
 
-namespace Infrastructure.Helpers
+namespace Infrastructure.Helpers.ViewManager
 {
-    public abstract class ViewManagerBase
+    public abstract class ViewPresenterBase
     {
         protected CancellationToken _cachedCancellationToken;
         protected CancellationTokenRegistration _cachedCancellationTokenRegistration;

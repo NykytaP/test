@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: GameEntities
+  m_EditorClassIdentifier: 
+  m_GroupName: GameEntities
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6268aa1ec1a942948b7d7b656b9a58bf
+  m_SerializeEntries:
+  - m_GUID: 3db38f05342a77a4a8ffe5a3f01bbeff
+    m_Address: GameEntities/Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc907c73018bf7e48ae276ff0238140e
+    m_Address: GameEntities/Bot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 18508da045322d14880d31134bfe038c
+    m_Address: GameEntities/Bullets/DefaultBullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a3619b76556bca940bea183b7861222a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 74de6ccb53effd741a50b4c268c78d4c, type: 2}
+    - {fileID: 11400000, guid: 00586d5ac4a45b6449b4221c20a792b3, type: 2}

@@ -1,19 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace Infrastructure.StateMachine.States
 {
     public interface IState : IExitableState
     {
-        public Task Enter();
+        public UniTask<AsyncUnit> Enter();
     }
 
     public interface IExitableState
     {
-        public Task Exit();
+        public UniTask<AsyncUnit> Exit();
     }
     
     public interface IPayloadedState<TPayload> : IExitableState
     {
-        public Task Enter(TPayload payload);
+        public UniTask<AsyncUnit> Enter(TPayload payload);
     }
 }
