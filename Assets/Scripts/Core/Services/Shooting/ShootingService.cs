@@ -3,6 +3,7 @@ using Core.Pools.Bullets;
 using Core.Pools.VFX;
 using Core.Utils;
 using Core.Views.Bullets;
+using Core.Views.Damagable;
 using Core.Views.Tank;
 using Core.Views.VFX;
 using Cysharp.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace Core.Services.Shooting
             bullet.transform.rotation = tankViewContainer.ShotPoint.rotation;
             
             bullet.GameObject.SetActive(true);
-            bullet.OnTriggerEnterAction += OnTriggerEntered;
+            bullet.OnCollisionEnterAction += OnCollisionEntered;
 
             ApplyRecoil(tankViewContainer);
 
@@ -60,7 +61,21 @@ namespace Core.Services.Shooting
             return AsyncUnit.Default;
         }
 
-        private void OnTriggerEntered(Collision collision, Quaternion rotation)
+        private void OnCollisionEntered(Collision collision, Quaternion rotation)
+        {
+            SetDamage(collision);
+            PlayVFX(collision, rotation);
+        }
+
+        private void SetDamage(Collision collision)
+        {
+            if (collision.gameObject.TryGetComponent(out IDamagable damagable))
+            {
+                damagable.ReceiveDamage(Constants.GameConstants.DefaultBulletDamage);
+            }
+        }
+
+        private void PlayVFX(Collision collision, Quaternion rotation)
         {
             ParticleView hitVFX = _vfxPoolManager.GetHitVFX();
 

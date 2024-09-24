@@ -7,7 +7,9 @@ namespace Core.Utils
         public static Vector3 GetRandomPointInBoxCollider(BoxCollider spawnArea, BoxCollider objectCollider)
         {
             int attempts = 100;
-            Vector3 objectSize = objectCollider.size;
+    
+            Vector3 objectSize = objectCollider.size + Constants.GameConstants.SpawnOffset;
+            
             int layerMask = ~LayerMask.GetMask(Constants.GameConstants.SpawnZoneLayerName, Constants.GameConstants.GroundLayerName);
 
             while (attempts > 0)
@@ -29,8 +31,12 @@ namespace Core.Utils
         {
             Vector3 center = collider.center;
             Vector3 size = collider.size;
-            
-            Vector3 randomPoint = new Vector3(Random.Range(-size.x / 2, size.x / 2), Random.Range(-size.y / 2, size.y / 2), Random.Range(-size.z / 2, size.z / 2));
+    
+            Vector3 randomPoint = new Vector3(
+                Random.Range(-size.x / 2, size.x / 2), 
+                Random.Range(-size.y / 2, size.y / 2), 
+                Random.Range(-size.z / 2, size.z / 2)
+            );
 
             return collider.transform.TransformPoint(center + randomPoint);
         }

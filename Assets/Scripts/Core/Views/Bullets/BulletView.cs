@@ -9,7 +9,7 @@ namespace Core.Views.Bullets
     [RequireComponent(typeof(Rigidbody))]
     public class BulletView : MonoBehaviour, IPoolable
     {
-        public event Action<Collision, Quaternion> OnTriggerEnterAction;
+        public event Action<Collision, Quaternion> OnCollisionEnterAction;
 
         private Coroutine _timeDeathCoroutine;
         private TrailRenderer _trailRenderer;
@@ -38,8 +38,8 @@ namespace Core.Views.Bullets
             
             Quaternion vfxRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y + 180f, 0);
             
-            OnTriggerEnterAction?.Invoke(other, vfxRotation);
-            OnTriggerEnterAction = null;
+            OnCollisionEnterAction?.Invoke(other, vfxRotation);
+            OnCollisionEnterAction = null;
             
             if(_timeDeathCoroutine != null)
                 StopCoroutine(_timeDeathCoroutine);

@@ -25,9 +25,12 @@ namespace Core.Services.Movement.Player
         {
             _tankMovement.Initialize(tankViewContainer);
         }
-        
+
         public void FixedTick()
         {
+            if(BlockInput)
+                return;
+            
             ReadInput();
 
             if (_moveInput != 0)
@@ -47,5 +50,7 @@ namespace Core.Services.Movement.Player
         {
             _tickableRunner.UnRegisterTickable(this);
         }
+
+        public bool BlockInput { get; set; }
     }
 }

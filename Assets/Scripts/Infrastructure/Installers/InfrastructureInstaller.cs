@@ -7,6 +7,7 @@ using Core.Loaders.VFX;
 using Core.Pools.Bullets;
 using Core.Pools.VFX;
 using Core.Presenters.Player;
+using Core.Services.Health;
 using Core.Services.Movement;
 using Core.Services.Movement.Player;
 using Core.Services.Shooting;
@@ -81,6 +82,7 @@ namespace Infrastructure.Installers
             Container.Bind<IPlayerMovement>().To<WASDMovement>().AsTransient();
             Container.Bind<IShootingService>().To<ShootingService>().AsTransient();
             Container.Bind<IPlayerShootingService>().To<PlayerShootingService>().AsSingle();
+            Container.Bind<IHealthService>().To<HealthService>().AsTransient();
         }
         
         private void BindPresenters()
