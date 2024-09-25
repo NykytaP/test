@@ -22,6 +22,11 @@ namespace Core.Services.Health
             ReceiveDamage(_currentHealth, onDeathCallback);
         }
 
+        public bool IsAlive()
+        {
+            return _currentHealth > 0;
+        }
+
         public void ReceiveDamage(int damage, Action onDeathCallback)
         {
             if(IsDead())

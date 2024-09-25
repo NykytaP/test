@@ -5,6 +5,7 @@ namespace Core.Views.Damagable
     public interface IDamagable
     {
         public Action OnDeathCallback { get; set; }
+        public bool IsAlive();
         public void ReceiveDamage(int damage);
         public void ForceKill();
         public void ResetHealth();

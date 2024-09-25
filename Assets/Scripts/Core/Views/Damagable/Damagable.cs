@@ -25,6 +25,11 @@ namespace Core.Views.Damagable
             _healthService.ResetHealth();
         }
 
+        public bool IsAlive()
+        {
+            return _healthService.IsAlive();
+        }
+
         public void ReceiveDamage(int damage)
         {
             _healthService.ReceiveDamage(damage, OnDeathCallback);

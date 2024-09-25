@@ -13,21 +13,23 @@ namespace Core.Services.Movement
             _tankViewContainer = tankViewContainer;
         }
 
-        public void MoveTank(float moveInput)
+        public void MoveTank(float moveInput, float speed)
         {
             if(_tankViewContainer == null)
                 return;
             
-            Vector3 movement = _tankViewContainer.Rigidbody.transform.forward * moveInput * Constants.GameConstants.TankMoveSpeed * Time.fixedDeltaTime;
+            Vector3 movement = _tankViewContainer.Rigidbody.transform.forward * moveInput * speed * Time.fixedDeltaTime;
             _tankViewContainer.Rigidbody.MovePosition(_tankViewContainer.Rigidbody.position + movement);
+            
+            _tankViewContainer.TankMoveVFXView.SetMoveVfx(Mathf.Approximately(moveInput, 1));
         }
 
-        public void RotateTank(float turnInput)
+        public void RotateTank(float turnInput, float speed)
         {
             if(_tankViewContainer == null)
                 return;
             
-            float turn = turnInput * Constants.GameConstants.TankTurnSpeed * Time.fixedDeltaTime;
+            float turn = turnInput * speed * Time.fixedDeltaTime;
             Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
             
             _tankViewContainer.Rigidbody.MoveRotation(_tankViewContainer.Rigidbody.rotation * turnRotation);

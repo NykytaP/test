@@ -5,7 +5,7 @@ namespace Core.Services.Movement
     public interface ITankMovement
     {
         public void Initialize(ITankViewContainer tankViewContainer);
-        public void RotateTank(float turnInput);
-        public void MoveTank(float moveInput);
+        public void RotateTank(float turnInput, float speed);
+        public void MoveTank(float moveInput, float speed);
     }
 }

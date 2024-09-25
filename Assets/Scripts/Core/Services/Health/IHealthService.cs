@@ -7,5 +7,6 @@ namespace Core.Services.Health
         public void ResetHealth();
         public void ReceiveDamage(int damage, Action onDeathCallback);
         public void ForceKill(Action onDeathCallback);
+        public bool IsAlive();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Core.Views.Damagable;
 using Core.Views.TankDeath;
+using Core.Views.VFX;
 using UnityEngine;
 
 namespace Core.Views.Tank
@@ -17,7 +18,10 @@ namespace Core.Views.Tank
         private Damagable.Damagable _damagable;
         [SerializeField]
         private TankDeathView _tankDeathView;
+        [SerializeField]
+        private TankMoveVFXView _tankMoveVFXView;
 
+        public TankMoveVFXView TankMoveVFXView => _tankMoveVFXView;
         public ITankDeathView TankDeathView => _tankDeathView;
         public Rigidbody Rigidbody => _rb;
         public BoxCollider BoxCollider => _boxCollider;

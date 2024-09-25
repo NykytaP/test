@@ -1,6 +1,8 @@
-﻿using Core.Pools.Bullets;
+﻿using System.Threading.Tasks;
+using Core.Pools.Bullets;
 using Core.Pools.VFX;
 using Core.Presenters.Player;
+using Core.Services.BotSpawner;
 using Core.Views.Loaders;
 using Cysharp.Threading.Tasks;
 using Data.Enums;
@@ -73,6 +75,7 @@ namespace Infrastructure.StateMachine.States
         private async UniTask<AsyncUnit> InitGameWorld()
         {
             await InitHero();
+            await InitBotsSpawner();
             
             return AsyncUnit.Default;
         }
@@ -84,6 +87,13 @@ namespace Infrastructure.StateMachine.States
             await playerPresenter.InitializePlayer(_cancellationTokenHelper.GetSceneCancellationToken());
             
             return AsyncUnit.Default;
+        }
+
+        private async Task InitBotsSpawner()
+        {
+            IBotSpawnService botSpawnService = _container.Resolve<IBotSpawnService>();
+
+            await botSpawnService.InitializeSpawner(_cancellationTokenHelper.GetSceneCancellationToken());
         }
 
         private async UniTask<AsyncUnit> InitUI()

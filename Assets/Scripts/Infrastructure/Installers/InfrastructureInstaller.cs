@@ -6,9 +6,12 @@ using Core.Loaders.Player;
 using Core.Loaders.VFX;
 using Core.Pools.Bullets;
 using Core.Pools.VFX;
+using Core.Presenters.Bot;
 using Core.Presenters.Player;
+using Core.Services.BotSpawner;
 using Core.Services.Health;
 using Core.Services.Movement;
+using Core.Services.Movement.Bot;
 using Core.Services.Movement.Player;
 using Core.Services.Shooting;
 using Core.Services.Shooting.Player;
@@ -83,11 +86,14 @@ namespace Infrastructure.Installers
             Container.Bind<IShootingService>().To<ShootingService>().AsTransient();
             Container.Bind<IPlayerShootingService>().To<PlayerShootingService>().AsSingle();
             Container.Bind<IHealthService>().To<HealthService>().AsTransient();
+            Container.Bind<IBotSpawnService>().To<BotSpawnService>().AsSingle();
+            Container.Bind<IBotMovement>().To<BotMovement>().AsTransient();
         }
         
         private void BindPresenters()
         {
             Container.Bind<IPlayerPresenter>().To<PlayerPresenter>().AsSingle().Lazy();
+            Container.Bind<IBotPresenter>().To<BotPresenter>().AsTransient();
         }
         
         private void BindManagers()

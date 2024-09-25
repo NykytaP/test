@@ -1,4 +1,5 @@
 ﻿using Core.Services.TickableRunner;
+using Core.Utils;
 using Core.Views.Tank;
 using UnityEngine;
 using Zenject;
@@ -32,12 +33,11 @@ namespace Core.Services.Movement.Player
                 return;
             
             ReadInput();
-
-            if (_moveInput != 0)
-                _tankMovement.MoveTank(_moveInput);
+            
+            _tankMovement.MoveTank(_moveInput, Constants.GameConstants.PlayerTankMoveSpeed);
             
             if(_turnInput != 0)
-                _tankMovement.RotateTank(_turnInput);
+                _tankMovement.RotateTank(_turnInput, Constants.GameConstants.PlayerTankTurnSpeed);
         }
 
         private void ReadInput()

@@ -29,13 +29,13 @@ namespace Core.Presenters.Player
         
         public async UniTask<AsyncUnit> InitializePlayer(CancellationToken cancellationToken)
         {
-            await SpawnPlayer(cancellationToken);
+            _cancellationToken = cancellationToken;
             
+            await SpawnPlayer();
+
             if(cancellationToken.IsCancellationRequested)
                 return AsyncUnit.Default;
 
-            _cancellationToken = cancellationToken;
-            
             _playerMovement.Initialize(_tankViewContainer);
             _playerShootingService.Initialize(_tankViewContainer);
             _tankViewContainer.Damagable.OnDeathCallback += OnDeathHandler;
@@ -43,13 +43,13 @@ namespace Core.Presenters.Player
             return AsyncUnit.Default;
         }
 
-        private async UniTask<AsyncUnit> SpawnPlayer(CancellationToken cancellationToken)
+        private async UniTask<AsyncUnit> SpawnPlayer()
         {
             if (_tankViewContainer == default)
             {
                 _tankViewContainer = await _tanksFactory.SpawnPlayer(PlayerRoot);
                 
-                if(cancellationToken.IsCancellationRequested)
+                if(_cancellationToken.IsCancellationRequested)
                     return AsyncUnit.Default;
             }
 
@@ -66,9 +66,9 @@ namespace Core.Presenters.Player
             _playerMovement.BlockInput = true;
             _tankViewContainer.TankDeathView?.BlowUpTurret();
             
-            await Task.Delay((int)(Constants.GameConstants.DeathAwait * 1000), _cancellationToken);
+            await Task.Delay((int)(Constants.GameConstants.PlayerDeathAwait * 1000), _cancellationToken);
 
-            await SpawnPlayer(_cancellationToken);
+            await SpawnPlayer();
         }
         
         private void ResetPlayer()
